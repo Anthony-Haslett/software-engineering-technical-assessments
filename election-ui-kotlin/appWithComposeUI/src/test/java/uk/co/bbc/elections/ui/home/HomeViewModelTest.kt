@@ -105,4 +105,39 @@ class HomeViewModelTest {
         // Then
         assertTrue(viewModel.uiState.value.loading)
     }
+
+    @Test
+    fun `when candidate not found, ui state falls back to candidate id`() = runTest {
+        // Given
+        val stubResultsService = StubResultsService()
+        stubResultsService.setCandidates(
+            listOf(
+                uk.co.bbc.elections.api.Candidate(0, "Candidate0")
+            )
+        )
+
+        // When
+        val viewModel = HomeViewModel(stubResultsService)
+        runCurrent()
+
+        stubResultsService.dispatchResults(
+            Results(
+                false,
+                listOf(
+                    Result(0, "Party0", 123),
+                    Result(999, "Party999", 456)
+                )
+            )
+        )
+        runCurrent()
+
+        // Then
+        assertEquals(
+            listOf(
+                ResultUiState("Party0", "Candidate0", "123"),
+                ResultUiState("Party999", "999", "456")
+            ),
+            viewModel.uiState.value.results
+        )
+    }
 }
