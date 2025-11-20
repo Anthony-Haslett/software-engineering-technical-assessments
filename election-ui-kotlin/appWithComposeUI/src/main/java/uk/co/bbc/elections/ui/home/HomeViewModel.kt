@@ -22,6 +22,10 @@ class HomeViewModel(
         )
 
     init {
+        viewModelScope.launch {
+            val candidates = resultsService.allCandidates()
+            viewModelState.update { it.copy(candidates = candidates) }
+        }
         refresh()
     }
 
