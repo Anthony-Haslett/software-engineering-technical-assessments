@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        java_version = 11
+        java_version = 17
         androidx_activity_compose_version = '1.9.3'
         androidx_activity_version = '1.9.3'
         androidx_appcompat_version = '1.7.0'
