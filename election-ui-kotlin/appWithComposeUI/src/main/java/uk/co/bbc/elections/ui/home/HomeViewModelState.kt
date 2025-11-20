@@ -9,8 +9,8 @@ data class HomeViewModelState(
 ) {
 
     fun toUiState(): HomeUiState {
-        val maxVotes = if (countingComplete && results.isNotEmpty()) {
-            results.maxOf { it.votes }
+        val maxVotes = if (countingComplete) {
+            results.maxOfOrNull { it.votes }
         } else {
             null
         }
