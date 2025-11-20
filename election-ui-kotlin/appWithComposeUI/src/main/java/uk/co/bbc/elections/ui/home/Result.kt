@@ -23,7 +23,7 @@ fun Result(result: ResultUiState) = Row(
     )
     Text(
         modifier = Modifier.weight(1f),
-        text = result.id,
+        text = result.candidateName,
         color = MaterialTheme.colors.onSurface
     )
     Text(
@@ -35,4 +35,4 @@ fun Result(result: ResultUiState) = Row(
 
 @Preview
 @Composable
-private fun ResultPreview() = Result(ResultUiState("Adder party", "1", "1056"))
+private fun ResultPreview() = Result(ResultUiState("Adder party", "Baldrick", "1056"))

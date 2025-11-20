@@ -54,6 +54,12 @@ class HomeViewModelTest {
     fun `when service returns a response, ui state contains results`() = runTest {
         // Given
         val stubResultsService = StubResultsService()
+        stubResultsService.setCandidates(
+            listOf(
+                uk.co.bbc.elections.api.Candidate(0, "Candidate0"),
+                uk.co.bbc.elections.api.Candidate(1, "Candidate1")
+            )
+        )
 
         // When
         val viewModel = HomeViewModel(stubResultsService)
@@ -73,8 +79,8 @@ class HomeViewModelTest {
         // Then
         assertEquals(
             listOf(
-                ResultUiState("Party0", "0", "123"),
-                ResultUiState("Party1", "1", "234")
+                ResultUiState("Party0", "Candidate0", "123"),
+                ResultUiState("Party1", "Candidate1", "234")
             ),
             viewModel.uiState.value.results
         )
