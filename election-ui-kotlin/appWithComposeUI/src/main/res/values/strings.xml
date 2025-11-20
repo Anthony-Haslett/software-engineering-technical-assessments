@@ -4,4 +4,6 @@
     <string name="results_header_party">Party</string>
     <string name="results_header_candidate">Candidate</string>
     <string name="results_header_votes">Votes</string>
+    <string name="counting_complete">Counting Complete</string>
+    <string name="counting_in_progress">Counting In Progress</string>
 </resources>

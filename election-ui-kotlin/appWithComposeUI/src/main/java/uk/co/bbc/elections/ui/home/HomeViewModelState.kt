@@ -8,14 +8,24 @@ data class HomeViewModelState(
     val loading: Boolean = false
 ) {
 
-    fun toUiState() = HomeUiState(
-        results = results.map { result ->
-            ResultUiState(
-                result.party,
-                result.candidateId.toString(),
-                result.votes.toString()
-            )
-        },
-        loading = loading
-    )
+    fun toUiState(): HomeUiState {
+        val maxVotes = if (countingComplete && results.isNotEmpty()) {
+            results.maxOf { it.votes }
+        } else {
+            -1
+        }
+        
+        return HomeUiState(
+            results = results.map { result ->
+                ResultUiState(
+                    result.party,
+                    result.candidateId.toString(),
+                    result.votes.toString(),
+                    isWinner = countingComplete && result.votes == maxVotes
+                )
+            },
+            loading = loading,
+            countingComplete = countingComplete
+        )
+    }
 }

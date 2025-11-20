@@ -99,4 +99,137 @@ class HomeViewModelTest {
         // Then
         assertTrue(viewModel.uiState.value.loading)
     }
+
+    @Test
+    fun `when counting is not complete, countingComplete is false`() = runTest {
+        // Given
+        val stubResultsService = StubResultsService()
+
+        // When
+        val viewModel = HomeViewModel(stubResultsService)
+        runCurrent()
+
+        stubResultsService.dispatchResults(
+            Results(
+                isComplete = false,
+                listOf(
+                    Result(0, "Party0", 100),
+                    Result(1, "Party1", 200)
+                )
+            )
+        )
+        runCurrent()
+
+        // Then
+        assertFalse(viewModel.uiState.value.countingComplete)
+    }
+
+    @Test
+    fun `when counting is complete, countingComplete is true`() = runTest {
+        // Given
+        val stubResultsService = StubResultsService()
+
+        // When
+        val viewModel = HomeViewModel(stubResultsService)
+        runCurrent()
+
+        stubResultsService.dispatchResults(
+            Results(
+                isComplete = true,
+                listOf(
+                    Result(0, "Party0", 100),
+                    Result(1, "Party1", 200)
+                )
+            )
+        )
+        runCurrent()
+
+        // Then
+        assertTrue(viewModel.uiState.value.countingComplete)
+    }
+
+    @Test
+    fun `when counting is complete, winner is marked with isWinner flag`() = runTest {
+        // Given
+        val stubResultsService = StubResultsService()
+
+        // When
+        val viewModel = HomeViewModel(stubResultsService)
+        runCurrent()
+
+        stubResultsService.dispatchResults(
+            Results(
+                isComplete = true,
+                listOf(
+                    Result(0, "Party0", 100),
+                    Result(1, "Party1", 200),
+                    Result(2, "Party2", 150)
+                )
+            )
+        )
+        runCurrent()
+
+        // Then
+        val results = viewModel.uiState.value.results
+        assertEquals(3, results.size)
+        assertFalse(results[0].isWinner)  // Party0 with 100 votes
+        assertTrue(results[1].isWinner)   // Party1 with 200 votes (winner)
+        assertFalse(results[2].isWinner)  // Party2 with 150 votes
+    }
+
+    @Test
+    fun `when counting is not complete, no winner is marked`() = runTest {
+        // Given
+        val stubResultsService = StubResultsService()
+
+        // When
+        val viewModel = HomeViewModel(stubResultsService)
+        runCurrent()
+
+        stubResultsService.dispatchResults(
+            Results(
+                isComplete = false,
+                listOf(
+                    Result(0, "Party0", 100),
+                    Result(1, "Party1", 200)
+                )
+            )
+        )
+        runCurrent()
+
+        // Then
+        val results = viewModel.uiState.value.results
+        results.forEach { result ->
+            assertFalse(result.isWinner)
+        }
+    }
+
+    @Test
+    fun `when there is a tie, both winners are marked`() = runTest {
+        // Given
+        val stubResultsService = StubResultsService()
+
+        // When
+        val viewModel = HomeViewModel(stubResultsService)
+        runCurrent()
+
+        stubResultsService.dispatchResults(
+            Results(
+                isComplete = true,
+                listOf(
+                    Result(0, "Party0", 200),
+                    Result(1, "Party1", 200),
+                    Result(2, "Party2", 100)
+                )
+            )
+        )
+        runCurrent()
+
+        // Then
+        val results = viewModel.uiState.value.results
+        assertEquals(3, results.size)
+        assertTrue(results[0].isWinner)   // Party0 with 200 votes (tied winner)
+        assertTrue(results[1].isWinner)   // Party1 with 200 votes (tied winner)
+        assertFalse(results[2].isWinner)  // Party2 with 100 votes
+    }
 }
