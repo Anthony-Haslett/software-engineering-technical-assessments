@@ -9,12 +9,14 @@ function Scoreboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [results, setResults] = useState([]);
+  const [isComplete, setIsComplete] = useState(false);
 
   async function getData() {
     try {
       setLoading(true);
       const resultData = await fetchData();
       setResults(resultData.results);
+      setIsComplete(resultData.isComplete || false);
       setLoading(false);
     } catch (e) {
       setLoading(false);
@@ -37,8 +39,9 @@ function Scoreboard() {
           error ? <h1>Error</h1> :
           <>
             <h1>Results</h1>
-            <Scorecard results={results} />
-            <a className="Scoreboard-refresh">Refresh</a>
+            {isComplete && <h2>Counting Complete!</h2>}
+            <Scorecard results={results} isComplete={isComplete} />
+            {!isComplete && <a className="Scoreboard-refresh" onClick={getData}>Refresh</a>}
             <h1>Learn more about the parties...</h1>
             <PartyLinks />
           </>
