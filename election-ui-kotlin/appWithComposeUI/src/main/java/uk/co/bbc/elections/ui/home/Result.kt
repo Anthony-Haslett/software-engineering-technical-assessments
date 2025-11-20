@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.dp
 fun Result(result: ResultUiState) = Row(
     modifier = Modifier
         .background(
-            if (result.isWinner) MaterialTheme.colors.primaryVariant
+            if (result.isWinner) MaterialTheme.colors.primary
             else MaterialTheme.colors.surface
         )
         .then(
-            if (result.isWinner) Modifier.border(2.dp, MaterialTheme.colors.primary)
+            if (result.isWinner) Modifier.border(2.dp, MaterialTheme.colors.primaryVariant)
             else Modifier
         )
         .padding(8.dp)

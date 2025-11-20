@@ -12,7 +12,7 @@ data class HomeViewModelState(
         val maxVotes = if (countingComplete && results.isNotEmpty()) {
             results.maxOf { it.votes }
         } else {
-            -1
+            null
         }
         
         return HomeUiState(
@@ -21,7 +21,7 @@ data class HomeViewModelState(
                     result.party,
                     result.candidateId.toString(),
                     result.votes.toString(),
-                    isWinner = countingComplete && result.votes == maxVotes
+                    isWinner = maxVotes != null && result.votes == maxVotes
                 )
             },
             loading = loading,
