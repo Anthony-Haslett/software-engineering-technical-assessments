@@ -12,6 +12,7 @@ test('renders Results', async () => {
         {
           'party': 'Giraffe Party',
           'candidateId': 2,
+          'candidateName': 'Lord Buckethead',
           'votes': '9900'
         }
       ]
@@ -47,6 +48,7 @@ test('fetches results again when refresh button clicked', async () => {
         {
           'party': 'Giraffe Party',
           'candidateId': 2,
+          'candidateName': 'Lord Buckethead',
           'votes': '9900'
         }
       ]
@@ -60,6 +62,7 @@ test('fetches results again when refresh button clicked', async () => {
         {
           'party': 'Giraffe Party',
           'candidateId': 2,
+          'candidateName': 'Lord Buckethead',
           'votes': '12345'
         }
       ]

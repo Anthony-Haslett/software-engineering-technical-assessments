@@ -5,6 +5,7 @@ const results = [
   {
     'party': 'Green',
     'candidateId': 2,
+    'candidateName': 'Lord Buckethead',
     'votes': '1056'
   }
 ];
@@ -17,6 +18,7 @@ test('renders results', async () => {
   const votesHeading = screen.getByText(/Votes/i);
 
   const party = screen.getByText(/Green/i);
+  const candidateName = screen.getByText(/Lord Buckethead/i);
   const votes = screen.getByText(/1056/i);
 
   expect(partyHeading).toBeInTheDocument();
@@ -24,6 +26,7 @@ test('renders results', async () => {
   expect(votesHeading).toBeInTheDocument();
 
   expect(party).toBeInTheDocument();
+  expect(candidateName).toBeInTheDocument();
   expect(votes).toBeInTheDocument();
 });
 
