@@ -18,6 +18,9 @@ class ResultsAdapter :
             binding.partyTv.text = item.party
             binding.candidateTv.text = item.candidate
             binding.votesTv.text = item.votes.toString()
+            
+            // Set contentDescription for TalkBack accessibility
+            binding.root.contentDescription = "${item.party}, ${item.candidate}, ${item.votes} votes"
         }
     }
 
